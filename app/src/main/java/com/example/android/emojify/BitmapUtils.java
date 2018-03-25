@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
@@ -71,7 +72,12 @@ class BitmapUtils {
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = scaleFactor;
 
-        return BitmapFactory.decodeFile(imagePath);
+        Bitmap resampledBitmap = BitmapFactory.decodeFile(imagePath);
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(-90);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(resampledBitmap, 0, 0, resampledBitmap.getWidth(), resampledBitmap.getHeight(), matrix, false);
+        return rotatedBitmap;
     }
 
     /**
