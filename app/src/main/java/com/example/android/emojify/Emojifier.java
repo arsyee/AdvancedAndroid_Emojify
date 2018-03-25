@@ -16,6 +16,7 @@
 
 package com.example.android.emojify;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -58,11 +59,23 @@ class Emojifier {
             Toast.makeText(context, R.string.no_faces_message, Toast.LENGTH_SHORT).show();
         }
 
-        // TODO (2): Iterate through the faces, calling getClassifications() for each face.
+        // COMPLETED (2): Iterate through the faces, calling getClassifications() for each face.
+        for (int i = 0; i < faces.size(); ++i) {
+            int key = faces.keyAt(i);
+            Face face = faces.valueAt(i);
+            Log.d(LOG_TAG, getClassifications(face));
+        }
 
         // Release the detector
         detector.release();
     }
 
-    // TODO (1): Create a static method called getClassifications() which logs the probability of each eye being open and that the person is smiling.
+    // COMPLETED (1): Create a static method called getClassifications() which logs the probability of each eye being open and that the person is smiling.
+    @SuppressLint("DefaultLocale")
+    private static String getClassifications(Face face) {
+        double left = face.getIsLeftEyeOpenProbability();
+        double right = face.getIsRightEyeOpenProbability();
+        double smile = face.getIsSmilingProbability();
+        return String.format("Left open: %.2f, right open: %.2f, smile: %.2f", left, right, smile);
+    }
 }
