@@ -16,16 +16,16 @@ class Emojifier {
     static int detectFaces(Context context, Bitmap bitmap) {
         FaceDetector detector = new FaceDetector.Builder(context)
                 .setTrackingEnabled(false)
-                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
+                .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
                 .build();
         if (!detector.isOperational()) {
             Log.e(TAG, "FaceDetector is not operational!");
         }
         Frame frame = new Frame.Builder().setBitmap(bitmap).build();
         SparseArray<Face> faces = detector.detect(frame);
-        detector.release();
         int countFaces = faces.size();
         Log.i(TAG, String.format("Number of faces detected: %d", countFaces));
+        detector.release();
         return countFaces;
     }
 
